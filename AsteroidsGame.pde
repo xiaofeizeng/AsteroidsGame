@@ -1,17 +1,4 @@
-//your variable declarations here
-public void setup() 
-{
-  //your code here
-}
-public void draw() 
-{
-  //your code here
-}
-class SpaceShip //extends Floater  
-{   
-    //your code here
-}
-abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
+abstract class Floater //Do NOT modify the Floater class! Make changes in the Spaceship class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;   
@@ -40,7 +27,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     myDirectionX += ((dAmount) * Math.cos(dRadians));    
     myDirectionY += ((dAmount) * Math.sin(dRadians));       
   }   
-  public void rotate (int nDegreesOfRotation)   
+  public void turn (int nDegreesOfRotation)   
   {     
     //rotates the floater by a given number of degrees    
     myPointDirection+=nDegreesOfRotation;   
@@ -63,7 +50,8 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     if(myCenterY >height)
     {    
       myCenterY = 0;    
-    }   
+    } 
+    
     else if (myCenterY < 0)
     {     
       myCenterY = height;    
@@ -73,18 +61,26 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   {             
     fill(myColor);   
     stroke(myColor);    
-    //convert degrees to radians for sin and cos         
-    double dRadians = myPointDirection*(Math.PI/180);                 
-    int xRotatedTranslated, yRotatedTranslated;    
-    beginShape();         
-    for(int nI = 0; nI < corners; nI++)    
-    {     
-      //rotate and translate the coordinates of the floater using current direction 
-      xRotatedTranslated = (int)((xCorners[nI]* Math.cos(dRadians)) - (yCorners[nI] * Math.sin(dRadians))+myCenterX);     
-      yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);      
-      vertex(xRotatedTranslated,yRotatedTranslated);    
-    }   
-    endShape(CLOSE);  
+    
+    //translate the (x,y) center of the ship to the correct position
+    translate((float)myCenterX, (float)myCenterY);
+
+    //convert degrees to radians for rotate()     
+    float dRadians = (float)(myPointDirection*(Math.PI/180));
+    
+    //rotate so that the polygon will be drawn in the correct direction
+    rotate(dRadians);
+    
+    //draw the polygon
+    beginShape();
+    for (int nI = 0; nI < corners; nI++)
+    {
+      vertex(xCorners[nI], yCorners[nI]);
+    }
+    endShape(CLOSE);
+
+    //"unrotate" and "untranslate" in reverse order
+    rotate(-1*dRadians);
+    translate(-1*(float)myCenterX, -1*(float)myCenterY);
   }   
 } 
-
