@@ -1,3 +1,46 @@
+Spaceship bob;
+Star [] number;
+int numberOfStars = (int(Math.random()*100+100));
+
+public void setup()
+{
+  Size(500, 500);
+  Spaceship bob = new Spaceship();
+  Star number = new Star[numberOfStars];
+  for (int i = 0; i < number.length; i++){
+    number[i] = new Star();
+  }
+}
+
+public void draw()
+{
+  background(0,0,0);
+  for (int i = 0; i<number.length; i++){
+    number[i].show();
+  }
+  bob.show();
+  bob.move();
+}
+public void keyPressed()
+{
+  if (keyPressed && key == "a"){
+    bob.rotate(-5);
+  }
+  if (keyPressed && key == "d"){
+    bob.rotate(+5);
+  }
+  if (keyPressed && key == "w"){
+    bob.accelerate(1);
+  }
+  if (keyPressed && key == "s"){
+    bob.accelerate(-1);
+  }
+  if (keyPressed && key == "o"){
+    bob.accelerate(0);
+    bob.setX((int)(Math.random()*500));
+    bob.setY((int)(Math.random()*500));
+  }
+}
 abstract class Floater //Do NOT modify the Floater class! Make changes in the Spaceship class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
